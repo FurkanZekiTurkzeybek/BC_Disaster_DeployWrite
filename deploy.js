@@ -52,7 +52,7 @@ const deploy = async ()=> {
     hash : hashCode
 }
 
-    db.collection("Users").doc(data.id.toString()).set(data);
+    db.collection("Users").add(data);
     provider.engine.stop();
 };
 
