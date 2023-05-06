@@ -55,5 +55,14 @@ const deploy = async ()=> {
     db.collection("Users").add(data);
     provider.engine.stop();
 };
+//This function is for testing
+function write() {
+    const contract = new web3.eth.Contract(JSON.parse(interface),
+        "0xb606000473A11a0e835ea8768226670f08239d7C");
 
+    contract.methods.setSafe().send({from: "0x1cEDc507F8478ECAc0fc6b710c8C039050AD0aa8"})
+        .then(function (receipt) {
+            console.log(receipt);
+        });
+}
 deploy();
