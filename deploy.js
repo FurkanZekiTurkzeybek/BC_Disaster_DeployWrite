@@ -24,34 +24,56 @@ const provider = new HDWalletProvider(
 
 const web3 = new Web3(provider);
 //ethereum init ends.
-const express = require('express');
-const { Server } = require('ws');
-const PORT = process.env.PORT || 3000;
-
-const server = express()
-    .use((req, res) => res.send("Hi there"))
-    .listen(PORT, () => console.log('Listening on port ${PORT}'));
-const wss = new Server({ server });
-
-wss.on('connection', async function (ws, req) {
-    await ws.on('message', async message => {
-        var dataString = message.toString();
-        console.log(dataString)
-        const input = dataString.split(" ");
-        if (dataString != null) {
-            await deploy(input[0], input[1], input[2], input[3]);
-            // console.log("Input is recieved");
-
-        } else {
-            console.log("data string is null");
-        }
-    })
-})
+// const express = require('express');
+// const { Server } = require('ws');
+// const PORT = process.env.PORT || 3000;
+//
+// const server = express()
+//     .use((req, res) => res.send("Hi there"))
+//     .listen(PORT, () => console.log('Listening on port ${PORT}'));
+// const wss = new Server({ server });
+//
+// wss.on('connection', async function (ws, req) {
+//     await ws.on('message', async message => {
+//         var dataString = message.toString();
+//         console.log(dataString)
+//         const input = dataString.split(" ");
+//         if (dataString != null) {
+//             await deploy(input[0], input[1], input[2], input[3]);
+//             // console.log("Input is recieved");
+//
+//         } else {
+//             console.log("data string is null");
+//         }
+//     })
+// })
 
 // let name = 'def name';
 // let surnmae = 'def surname';
 // let SSN = 'def SSN';
 // let address = 'def address';
+
+
+const express = require("express");
+const app = express();
+const port = 3000;
+
+app.use(express.json());
+
+app.post("/api/person", async (req, res) => {
+    const {name, surname, address, ssn} = req.body;
+    console.log(
+        `Received person data: name=${name}, surname=${surname}, address=${address}, ssn=${ssn}`
+    );
+
+    await deploy(name, surname, address, ssn);
+    // res.send("Call back message");
+    // process the data and send a response
+});
+
+app.listen(port, () => {
+  console.log(`Server listening at http://localhost:${port}`);
+});
 
 const deploy = async (pName, pSurname, pSSN, pAddress) => {
     const accounts = await web3.eth.getAccounts();
