@@ -54,7 +54,7 @@ const deploy = async (pName, pSurname, pAddress, pSSN, pPassword) => {
     console.log('Attempting to deploy from account ', accounts[0]);
 
     const result = await new web3.eth.Contract(JSON.parse(interface))
-        .deploy({data: bytecode, arguments: [pName, pSurname,  pAddress ,pSSN]})
+        .deploy({data: bytecode, arguments: [pName, pSurname, pAddress, pSSN]})
         .send({gas: '1000000', from: accounts[0]});
 
     console.log('Contract deployed to', result.options.address);
@@ -68,6 +68,7 @@ const deploy = async (pName, pSurname, pAddress, pSSN, pPassword) => {
         password: pPassword
     }
 
+    setState(result);
     db.collection("Users").add(data);
     return hashCode;
     // provider.engine.stop();
@@ -83,6 +84,14 @@ const deploy = async (pName, pSurname, pAddress, pSSN, pPassword) => {
 //             console.log(receipt);
 //         });
 // }
+
+function setState(pContract) {
+    pContract.methods.setSafe().send({from: "0x1cEDc507F8478ECAc0fc6b710c8C039050AD0aa8"})
+        .then(function (receipt) {
+            console.log(receipt);
+        });
+}
+
 
 // async function setContract() {
 //     const contract = new web3.eth.Contract(JSON.parse(interface),
