@@ -54,15 +54,12 @@ const deploy = async (pName, pSurname, pAddress, pSSN, pPassword) => {
     console.log('Attempting to deploy from account ', accounts[0]);
 
     const result = await new web3.eth.Contract(JSON.parse(interface))
-        .deploy({data: bytecode, arguments: [pName, pSurname, pAddress, pSSN]})
+        .deploy({data: bytecode, arguments: [pName, pSurname, pSSN, pAddress]})
         .send({gas: '1000000', from: accounts[0]});
 
     console.log('Contract deployed to', result.options.address);
     const hashCode = result.options.address;
     const data = {
-        name: pName,
-        surname: pSurname,
-        address: pAddress,
         SSN: pSSN,
         hash: hashCode,
         password: pPassword
