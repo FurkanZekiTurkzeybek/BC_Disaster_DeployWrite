@@ -55,7 +55,7 @@ const deploy = async (pName, pSurname, pAddress, pSSN, pPassword) => {
 
     const result = await new web3.eth.Contract(JSON.parse(interface))
         .deploy({data: bytecode, arguments: [pName, pSurname, pSSN, pAddress]})
-        .send({gas: '1000000', from: accounts[0]});
+        .send({gas: '5000000', from: accounts[0]});
 
     console.log('Contract deployed to', result.options.address);
     const hashCode = result.options.address;
@@ -90,12 +90,13 @@ function setState(pContract) {
 }
 
 
+
+
 // async function setContract() {
 //     const contract = new web3.eth.Contract(JSON.parse(interface),
-//         "0x779117A478Cb955D0848780E4AF2E340eD26Cd29");
+//         "0xF27aFDD4a6886076F434F0d8C6C2427BF6e3d666");
 //     contract.methods.setSa().send({from: "0x1cEDc507F8478ECAc0fc6b710c8C039050AD0aa8"});
 // }
-// setContract();
 
 
 
